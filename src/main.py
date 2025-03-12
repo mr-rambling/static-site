@@ -50,8 +50,8 @@ def generate_page(from_path, template_path, dest_path, basepath):
     title = extract_title(markdown)
     page = template.replace('{{ Title }}', title)
     page = page.replace('{{ Content }}', content)
-    page = page.replace('href="/"', f'href="{basepath}"')
-    page = page.replace('src="/"', f'src="{basepath}"')
+    page = page.replace('href="/', f'href="{basepath}')
+    page = page.replace('src="/', f'src="{basepath}')
 
     f = open(f'{dest_path}', 'x')
     f.write(page)
