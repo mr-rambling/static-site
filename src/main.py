@@ -9,7 +9,7 @@ def main():
         shutil.rmtree(f'{dst}')
 
     static_to_public(src, dst)
-    generate_page('./content/index.md', './template.html', './public/index.html')
+    generate_pages_recursive('./content', './template.html', './public')
 
 
 def static_to_public(src, dst):
@@ -56,5 +56,16 @@ def generate_page(from_path, template_path, dest_path):
     f.write(page)
     f.close()
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for entry in os.listdir(dir_path_content):
+        loc = f'{dir_path_content}/{entry}'
+        dest = f'{dest_dir_path}/{entry}'
+
+        if os.path.isfile(loc):
+            if entry[-2:] == 'md':
+                generate_page(loc, template_path, f'{dest[:-3]}.html')
+        else:
+            os.mkdir(dest)
+            generate_pages_recursive(loc, template_path, dest)
 
 main()
